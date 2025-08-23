@@ -4,8 +4,6 @@
 const { app, globalShortcut, ipcMain, BrowserWindow, clipboard, Notification } = require('electron')
 const path = require('path')
 
-const applescript = require('applescript')
-
 // Very basic AppleScript command. Returns the song name of each
 // currently selected track in iTunes as an 'Array' of 'String's.
 // do shell script "/usr/local/opt/cliclick c:." 
@@ -47,7 +45,7 @@ const createWindow = () => {
     backgroundColor:"#1c1f24",
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      devTools: !isProduction,
+      // devTools: !isProduction,
       // nodeIntegration: true,
       // contextIsolation: false,
     }
@@ -57,22 +55,10 @@ const createWindow = () => {
     app.dock.setIcon(path.join(__dirname, '../public/img/icons/logo-large.png'))
   }
 
-  ipcMain.on('set-grade', (event, msg) => {
-    console.log(msg)
-    applescript.execString(sendingScript, (err) => {
-      if (err) {
-        // Something went wrong!
-        console.error('sendingScript err', err)
-        showNotification(err.message || 'Fail', '发送成绩失败')
-      }
-      app.focus({ steal: true })
-    })
-  })
-
   // 加载 index.html
-  // mainWindow.loadFile('docs/index.html')
+  mainWindow.loadFile('docs/index.html')
   // mainWindow.loadURL('http://127.0.0.1:8080')
-  mainWindow.loadURL('https://typer.owenyang.top')
+  // mainWindow.loadURL('https://typer.owenyang.top')
   // mainWindow.loadURL('https://owenyang0.github.io/easy-typer/')
 
   // 在此示例中，将仅创建具有 `about:blank` url 的窗口。
@@ -115,65 +101,6 @@ function hasWindow() {
 // 部分 API 在 ready 事件触发后才能使用。
 app.whenReady().then(() => {
   createWindow()
-
-  app.on('activate', () => {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (!hasWindow()) {
-      createWindow()
-    }
-  })
-
-  // 注册一个'F4' 快捷键监听器
-  const ret = globalShortcut.register('F4', () => {
-    console.log('F4 is pressed')
-
-    applescript.execString(retrivingScript, (err) => {
-      app.focus({ steal: true })
-
-      const errmsg = '暂时无法获取QQ赛文！请参考『使用帮助-快速开始』完成初始设置：在『系统偏好设置-安全性与隐私-辅助功能』中，允许『木易跟打器』控制电脑；2.按下F4快捷键直接载文，即刻开始你的跟打之旅。'
-      if (err) {
-        showNotification(err.message, '获取文本失败')
-      }
-
-      if (!hasWindow()) {
-        const win = createWindow()
-
-        win.on('show', function () {
-          win.webContents.send('update-paste', err ? errmsg : clipboard.readText())
-        })
-
-        return
-      }
-
-      if (err) {
-        mainWindow.webContents.send('update-paste', errmsg)
-        return
-      }
-      
-      mainWindow.webContents.send('update-paste', clipboard.readText())
-    })
-  })
-  // // 注册一个'F2' 快捷键监听器
-  // globalShortcut.register('F2', () => {
-  //   console.log('F2 is pressed')
-  //   applescript.execString(sendingScript, (err) => {
-  //     if (err) {
-  //       // Something went wrong!
-  //       console.log('sendingScript err', err)
-  //     }
-  //     console.log('sendingScript done')
-
-  //     app.focus({ steal: true })
-  //   })
-  // })
-
-  if (!ret) {
-    console.log('registration failed')
-  }
-
-  // 检查快捷键是否注册成功
-  console.log('is F4 registered: ' + globalShortcut.isRegistered('F4'))
 
   mainWindow.on('closed', _ => {
     console.log('closed')

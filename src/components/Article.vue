@@ -17,6 +17,7 @@ import { Edge, ShortestPath } from '@/store/util/Graph'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import Words from '@/components/Words.vue'
+import { erjian1xuan, erjian2xuan } from '../util/erjianWords' // 你的二简词列表
 
 const article = namespace('article')
 const racing = namespace('racing')
@@ -92,7 +93,25 @@ export default class Article extends Vue {
       const typed = this.content.substring(0, inputLength)
       this.check(0, input, typed, words)
       const pending = this.content.substring(inputLength)
-      words.push(new Word(inputLength, pending, 'pending'))
+      // words.push(new Word(inputLength, pending, 'pending'))
+      // 未打部分按二简词分割
+      let i = 0
+      while (i < pending.length) {
+        let found = false
+        for (let len = 4; len >= 2; len -= 2) {
+          const part = pending.substr(i, len)
+          if (erjian1xuan.includes(part) || erjian2xuan.includes(part)) {
+            words.push(new Word(inputLength + i, part, 'pending'))
+            i += len
+            found = true
+            break
+          }
+        }
+        if (!found) {
+          words.push(new Word(inputLength + i, pending[i], 'pending'))
+          i += 1
+        }
+      }
     } else {
       const { path, vertices } = this.shortest
       for (let i = 0; i < length;) {
@@ -107,6 +126,8 @@ export default class Article extends Vue {
         i = next === 0 ? path[i] : next
       }
     }
+
+    // console.log(words.map(w => w.text))
 
     return words
   }

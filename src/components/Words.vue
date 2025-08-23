@@ -1,6 +1,6 @@
 <template>
   <div :class="style">
-    <span>{{ word.text }}</span>
+    <span :class="{ 'erjian-1xuan': isErjian1Xuan, 'erjian-2xuan': isErjian2Xuan }">{{ word.text }}</span>
     <label v-if="hasHint">{{ hintText }}</label>
   </div>
 </template>
@@ -9,8 +9,12 @@
 import { Word } from '@/store/types'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
+import { erjian1xuan, erjian2xuan } from '../util/erjianWords' // 你的二简词列表
 
 const setting = namespace('setting')
+
+const erjian1Set = new Set(erjian1xuan)
+const erjian2Set = new Set(erjian2xuan)
 
 @Component
 export default class Words extends Vue {
@@ -82,5 +86,34 @@ export default class Words extends Vue {
     }
     return text
   }
+
+  // 判断是否为二简词
+  get isErjian1Xuan (): boolean {
+    return erjian1Set.has(this.word.text)
+  }
+
+  get isErjian2Xuan (): boolean {
+    return erjian2Set.has(this.word.text)
+  }
+
+  mounted () {
+    console.log('word.text:', this.word.text, 'isErjian1Xuan:', erjian1Set.has(this.word.text), 'isErjian2Xuan:', erjian2Set.has(this.word.text))
+  }
 }
 </script>
+
+<style scoped>
+.erjian-1xuan {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #1976d2;
+}
+.erjian-2xuan {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #d219cf;
+}
+</style>
