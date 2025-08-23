@@ -17,6 +17,8 @@ import { Edge, ShortestPath } from '@/store/util/Graph'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import Words from '@/components/Words.vue'
+
+import { yijianci } from '../util/yijianWords' // 你的一简词列表
 import { erjian1xuan, erjian2xuan } from '../util/erjianWords' // 你的二简词列表
 
 const article = namespace('article')
@@ -94,13 +96,13 @@ export default class Article extends Vue {
       this.check(0, input, typed, words)
       const pending = this.content.substring(inputLength)
       // words.push(new Word(inputLength, pending, 'pending'))
-      // 未打部分按二简词分割
+      // 未打部分按一简词和二简词分割
       let i = 0
       while (i < pending.length) {
         let found = false
         for (let len = 4; len >= 2; len -= 2) {
           const part = pending.substr(i, len)
-          if (erjian1xuan.includes(part) || erjian2xuan.includes(part)) {
+          if (yijianci.includes(part) || erjian1xuan.includes(part) || erjian2xuan.includes(part)) {
             words.push(new Word(inputLength + i, part, 'pending'))
             i += len
             found = true
