@@ -295,10 +295,19 @@ export default class Home extends Vue {
     const subOption = this.contentOptions.find(o => o.value === rootName)
     const current = subOption ? subOption.children.find(s => s.value === name) : null
 
+    // console.log('（检测）' + JSON.stringify(names, null, 4))
+    // console.log('（检测）' + JSON.stringify(subOption, null, 4))
+    // console.log('（检测）' + JSON.stringify(current, null, 4))
+    if (subOption?.value === 'xiaoheJianma') {
+      this.articleText = current?.value || ''
+      this.dialogTitle = current?.label || '小鹤简码（本地）'
+      return
+    }
+
     current && eapi.getKataOptionById(current?.id || -1)
       .then(ret => {
         this.articleText = ret.content
-        this.dialogTitle = `${ret.title}`
+        this.dialogTitle = `${ret.title}` + '（非本地，来自木易跟打器官方 api）'
       }).catch(() => {
         this.$message({
           message: '内容获取失败，请刷新重试！',
@@ -312,7 +321,7 @@ export default class Home extends Vue {
     const { contentName } = this.formContent
     this.formContent.contentLength = articleText.replace(/\n/g, '').length
 
-    if (['tiger', 'word'].indexOf(contentName[0]) !== -1) {
+    if (['tiger', 'word', 'xiaoheJianma'].indexOf(contentName[0]) !== -1) {
       this.formContent.paragraphSize = this.formContent.paragraphSize > 100 ? 10 : this.formContent.paragraphSize
     } else {
       this.formContent.paragraphSize = Math.min(1000, articleText.length)
@@ -395,10 +404,73 @@ export default class Home extends Vue {
   created () {
     this.init()
 
+    const xiaoheJianma = {
+      value: 'xiaoheJianma',
+      label: '小鹤简码（本地）',
+      id: 101,
+      children: [{
+        id: 1,
+        value: '菜少僧多佛无肉车新帅老将有云深山谁能弄风月水里咋让虐黄牛白龙森林闹天地黑熊大户催嫩排' +
+        '阿翁恰好说空话爱女当面色从容怒撒红米她先笑穷困绿囊贼也完为何楼高汤更暖凭啥桥坏应对难' +
+        '目光绕得亲体软装问跑来您眼前两间长草各内外几行热搜求安全藏传真如修本主上元太岁共双恩' +
+        '桌边混吃仍需乐村中走动且请跟长路正顺或行久报表群读谈分成样图古怪撇粗乱陈某特强蹦窜戳' +
+        '配料过关调算法窗口那处叫生抽昂头每次旁若定顿额经年只等盘曾早数日听鸟梦但因差点总卷然' +
+        '四下帮凑含宁散最后推却跌碰贴超贵追买怕卡疼放浪还看该干吗亚奥比赛忙参与想哭接连被灭团' +
+        '费用加增够快否民调占据很慢么普系吹落抓进组受到肯夸找靠所并列均宽纯况转再而以测滚剖剋' +
+        '破产另论刚做事挖坑则选横滨区藏着换代别给我错字怎办要任其毛亏送些同学们开设冲丢都冷啦' +
+        '品类套票盆克秒名片副部段批扎挂拽抗拴拨拆扩摸捏挪擦扫把拖刘苏岑欧周王反嗯欸喔哟嘎哈呢' +
+        '你得会',
+        label: '二简字',
+        children: [],
+        isRemote: 0
+      }, {
+        id: 2,
+        value: yijianci.join(''),
+        label: '一简词',
+        children: [],
+        isRemote: 0
+      }, {
+        id: 3,
+        value: erjian1xuan.join(''),
+        label: '二简词（首选）',
+        children: [],
+        isRemote: 0
+      }, {
+        id: 4,
+        value: erjian1xuanZhongdian.join(''),
+        label: '二简词（首选，前三排）',
+        children: [],
+        isRemote: 0
+      }, {
+        id: 5,
+        value: erjian2xuan.join(''),
+        label: '二简词（次选）',
+        children: [],
+        isRemote: 0
+      }]
+    }
+    for (let index = 0; index < xiaoheJianma.children.length; index++) {
+      const element = xiaoheJianma.children[index]
+      delete element.children
+    }
+
     eapi.getKataList()
       .then(options => {
         this.contentOptions = options
+        this.contentOptions.splice(3, 0, xiaoheJianma)
+
+        // for (let index = 0; index < this.contentOptions.length; index++) {
+        //   const element = this.contentOptions[index]
+        //   console.log('（异步）' + JSON.stringify(element, null, 4))
+        //   // console.log('（异步）' + element.label + JSON.stringify(element.children, null, 4))
+        //   // console.log('（异步）' + element.children[0].label + JSON.stringify(element.children[0].children, null, 4))
+        // }
       })
+
+    // for (let index = 0; index < this.contentOptions.length; index++) {
+    //   const element = this.contentOptions[index]
+    //   console.log('（同步）' + JSON.stringify(element, null, 4))
+    // }
   }
 
   handleIframeLoaded () {
