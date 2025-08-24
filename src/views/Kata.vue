@@ -229,7 +229,7 @@ export default class Home extends Vue {
   }
 
   get paragraphSizeStep (): number {
-    const isSingleMode = ['tiger', 'word'].indexOf(this.formContent.contentName[0]) !== -1
+    const isSingleMode = ['tiger', 'word', 'xiaoheJianma'].indexOf(this.formContent.contentName[0]) !== -1
     return isSingleMode ? 5 : 100
   }
 
