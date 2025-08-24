@@ -9,8 +9,7 @@ const HASH_KEY = '3198f2e6892d5bdd0630505e20acfc849a12e03c5a1da4c5c41a180c44c67e
 const axiosInstance = axios.create({
   baseURL: process.env.NODE_ENV === 'production'
     ? 'https://typer.owenyang.top'
-    : 'http://localhost:8080',
-    // : 'http://123.123.123.123:8080', // 123.123.123.123 is the ip-address of the pc
+    : 'http://localhost:8080', // 将 localhost 换成运行 yarn serve 的电脑的 ip 地址，就可以在同一局域网的其他设备上访问修改版的木易了
   responseType: 'json'
 })
 axiosInstance.interceptors.request.use((config) => {
