@@ -4,7 +4,7 @@
   "description": "macOS平台可直接载文的跟打器",
   "author": "owenyang/木易",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --host 0.0.0.0",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",

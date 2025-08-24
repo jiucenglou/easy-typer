@@ -10,6 +10,7 @@ const axiosInstance = axios.create({
   baseURL: process.env.NODE_ENV === 'production'
     ? 'https://typer.owenyang.top'
     : 'http://localhost:8080',
+    // : 'http://123.123.123.123:8080', // 123.123.123.123 is the ip-address of the pc
   responseType: 'json'
 })
 axiosInstance.interceptors.request.use((config) => {
