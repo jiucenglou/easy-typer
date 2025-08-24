@@ -1,14 +1,19 @@
 import { eapi, Match } from '@/api/easyTyper'
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { ArticleState, Coding, KataState, QuickTypingState, SettingState, Word } from './types'
-import { shuffleText, isNative, replaceTextSpace, shuffle, splitLongText, generateRandomLetters, generateRandomNumbers, generateLettersAndNumbers } from './util/common'
+import { shuffleText, shuffleText2, isNative, replaceTextSpace, shuffle, splitLongText, generateRandomLetters, generateRandomNumbers, generateLettersAndNumbers } from './util/common'
 import { Edge, Graph, ShortestPath } from './util/Graph'
 import { TrieNode } from './util/TrieTree'
 import { symbolsRegs } from './util/constants'
 import { Message } from 'element-ui'
 import { wikiTypes } from '@/api/constant'
 
+import { yijianci, yijianSet } from '../xiaoheJianma/yijianWords'
+import { erjian1xuan, erjian1xuanZhongdian, erjian2xuan, erjian1Set, erjian1ZSet, erjian2Set } from '../xiaoheJianma/erjianWords'
+
 const alphaPattern = /[a-zA-Z0-9]/
+
+const xiaoheJianmaSet = new Set([...yijianSet, ...erjian1Set, ...erjian2Set])
 
 /**
  * 处理标点顶屏
@@ -228,6 +233,13 @@ const actions: ActionTree<ArticleState, QuickTypingState> = {
   random ({ state }): void {
     const article = {
       content: shuffleText(state.content)
+    }
+    this.dispatch('article/loadArticle', article)
+  },
+
+  random2 ({ state }): void {
+    const article = {
+      content: shuffleText2(state.content, xiaoheJianmaSet)
     }
     this.dispatch('article/loadArticle', article)
   },

@@ -534,6 +534,8 @@ const actions: ActionTree<RacingState, QuickTypingState> = {
               this.dispatch('racing/retry')
             } else if (kata.criteriaAction === 'random') {
               this.dispatch('kata/random')
+            } else if (kata.criteriaAction === 'random2') {
+              this.dispatch('kata/random2')
             }
           }
           // 此次已达标

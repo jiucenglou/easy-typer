@@ -53,3 +53,7 @@ export const erjian2xuan: string[] = [
   '与其', '食物', '即使', '正在', '确认', '按键', '举例', '周围', '最终', '基本',
   '整句', '即可', '分享', '当然', '前天', '几天'
 ]
+
+export const erjian1Set = new Set(erjian1xuan)
+export const erjian1ZSet = new Set(erjian1xuanZhongdian)
+export const erjian2Set = new Set(erjian2xuan)

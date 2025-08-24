@@ -18,8 +18,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import Words from '@/components/Words.vue'
 
-import { yijianci } from '../util/yijianWords' // 你的一简词列表
-import { erjian1xuan, erjian2xuan } from '../util/erjianWords' // 你的二简词列表
+import { yijianSet } from '../xiaoheJianma/yijianWords' // 你的一简词列表
+import { erjian1Set, erjian1ZSet, erjian2Set } from '../xiaoheJianma/erjianWords' // 你的二简词列表
 
 const article = namespace('article')
 const racing = namespace('racing')
@@ -102,7 +102,7 @@ export default class Article extends Vue {
         let found = false
         for (let len = 4; len >= 2; len -= 2) {
           const part = pending.substr(i, len)
-          if (yijianci.includes(part) || erjian1xuan.includes(part) || erjian2xuan.includes(part)) {
+          if (yijianSet.has(part) || erjian1Set.has(part) || erjian2Set.has(part)) {
             words.push(new Word(inputLength + i, part, 'pending'))
             i += len
             found = true

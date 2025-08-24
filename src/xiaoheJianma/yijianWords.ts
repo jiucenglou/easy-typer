@@ -5,3 +5,5 @@ export const yijianci: string[] = [
   '安装', '所有', '大概', '复杂', '关系', '忽略', '键盘', '可以', '理解',
   '自动', '显示', '词库', '直接', '比较', '内容', '目录'
 ]
+
+export const yijianSet = new Set(yijianci)

@@ -10,15 +10,10 @@ import { Word } from '@/store/types'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 
-import { yijianci } from '../util/yijianWords' // 你的一简词列表
-import { erjian1xuan, erjian1xuanZhongdian, erjian2xuan } from '../util/erjianWords' // 你的二简词列表
+import { yijianSet } from '../xiaoheJianma/yijianWords' // 你的一简词列表
+import { erjian1Set, erjian1ZSet, erjian2Set } from '../xiaoheJianma/erjianWords' // 你的二简词列表
 
 const setting = namespace('setting')
-
-const yijianSet = new Set(yijianci)
-const erjian1Set = new Set(erjian1xuan)
-const erjian1ZSet = new Set(erjian1xuanZhongdian)
-const erjian2Set = new Set(erjian2xuan)
 
 @Component
 export default class Words extends Vue {

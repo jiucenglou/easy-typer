@@ -115,6 +115,7 @@
             @change="handleActionChange"
           >
             <el-option label="乱序" value="random"></el-option>
+            <el-option label="乱序2（不改变一二简词）" value="random2"></el-option>
             <el-option label="重打" value="retry"></el-option>
             <el-option label="不处理" value="noop"></el-option>
           </el-select>
@@ -124,6 +125,7 @@
       <div class="right">
         <el-button @click="handleCancel">取 消</el-button>
         <el-button :disabled="!hasArticleText" @click="handleShuffle">全局乱序</el-button>
+        <el-button :disabled="!hasArticleText" @click="handleShuffle2">全局乱序2（不改变一二简词）</el-button>
         <el-button :disabled="!hasArticleText" @click="startFullKata">发送全文</el-button>
         <el-button type="primary" :disabled="!hasArticleText" @click="startKata">发文</el-button>
       </div>
@@ -142,13 +144,18 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { KataState } from '@/store/types'
 import { KataArticle } from '@/store/kata'
-import { shuffle, isMobile } from '@/store/util/common'
+import { shuffle, isMobile, shuffleText2 } from '@/store/util/common'
 import { noop } from 'vue-class-component/lib/util'
 import eapi from '@/api/easyTyper'
 import { KataOptions } from '@/models/articleModels'
 
+import { yijianci, yijianSet } from '../xiaoheJianma/yijianWords'
+import { erjian1xuan, erjian1xuanZhongdian, erjian2xuan, erjian1Set, erjian1ZSet, erjian2Set } from '../xiaoheJianma/erjianWords'
+
 const article = namespace('article')
 const kata = namespace('kata')
+
+const xiaoheJianmaSet = new Set([...yijianSet, ...erjian1Set, ...erjian2Set])
 
 @Component({
   components: {
@@ -360,6 +367,10 @@ export default class Home extends Vue {
 
   handleShuffle () {
     this.articleText = shuffle(this.articleText.split('')).join('')
+  }
+
+  handleShuffle2 () {
+    this.articleText = shuffleText2(this.articleText, xiaoheJianmaSet)
   }
 
   startFullKata () {

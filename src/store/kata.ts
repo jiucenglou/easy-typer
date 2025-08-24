@@ -1,9 +1,14 @@
 
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { QuickTypingState, KataState } from './types'
-import { isMobile, shuffle } from './util/common'
+import { isMobile, shuffle, shuffleText2 } from './util/common'
 import { Message } from 'element-ui'
 import { kataHistory } from './util/KataHistory'
+
+import { yijianci, yijianSet } from '../xiaoheJianma/yijianWords'
+import { erjian1xuan, erjian1xuanZhongdian, erjian2xuan, erjian1Set, erjian1ZSet, erjian2Set } from '../xiaoheJianma/erjianWords'
+
+const xiaoheJianmaSet = new Set([...yijianSet, ...erjian1Set, ...erjian2Set])
 
 export interface KataArticle {
   content: string;
@@ -77,6 +82,10 @@ const mutations: MutationTree<KataState> = {
 
   random: (state) => {
     state.currentContent = shuffle(state.currentContent.split('')).join('')
+  },
+
+  random2: (state) => {
+    state.currentContent = shuffleText2(state.currentContent, xiaoheJianmaSet)
   },
 
   mode: (state, newMode: number) => {
@@ -165,6 +174,10 @@ const actions: ActionTree<KataState, QuickTypingState> = {
   },
   random ({ commit, getters }): void {
     commit('random')
+    this.dispatch('article/loadMatch', getters.nextParagraph)
+  },
+  random2 ({ commit, getters }): void {
+    commit('random2')
     this.dispatch('article/loadMatch', getters.nextParagraph)
   }
 }

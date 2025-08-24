@@ -281,9 +281,9 @@ export class KataState {
    */
   textType = 1;
   /**
-   * 指标校验-操作 random乱序 retry重打 noop不处理
+   * 指标校验-操作 random乱序 random2乱序2（不改变一二简词） retry重打 noop不处理
    */
-  criteriaAction: 'noop' | 'random' | 'retry' = 'random';
+  criteriaAction: 'noop' | 'random' | 'random2' | 'retry' = 'random';
 }
 
 export interface BookModel {

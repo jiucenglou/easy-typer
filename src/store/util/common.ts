@@ -12,6 +12,30 @@ export function shuffleText (text: string) {
   return shuffle(arr).join('')
 }
 
+export function shuffleText2 (text: string, jianmaWords: Set<string>) {
+  const pending = text
+  const words = []
+  const chars = []
+  let i = 0
+  while (i < pending.length) {
+    let found = false
+    for (let len = 4; len >= 2; len -= 2) {
+      const part = pending.substr(i, len)
+      if (jianmaWords.has(part)) {
+        words.push(part)
+        i += len
+        found = true
+        break
+      }
+    }
+    if (!found) {
+      chars.push(pending[i])
+      i += 1
+    }
+  }
+  return shuffle([words, chars].flat()).join('')
+}
+
 export function initColorMode (mode = '', initial = false) {
   const html = document.getElementsByTagName('html')[0]
   const colorMode = !initial ? mode : (localStorage.getItem('colorMode') as string || '')
@@ -206,6 +230,7 @@ export const generateLettersAndNumbers = (length: number): string => {
 
 export const criteriaActionText = {
   random: '乱序',
+  random2: '乱序2（不改变一二简词）',
   retry: '重打',
   noop: '不处理'
 }
