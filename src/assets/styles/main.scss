@@ -384,6 +384,16 @@ html, body {
       }
     }
 
+    .pending, .correct {
+      display: inline-block;
+      vertical-align: top;
+
+      // 腾讯 CodeBuddy DS 3.1 : 确保无论其他CSS规则如何，.pending和.correct的渲染结果完全一致，
+      // 消除 Chrome 和 Firefox 中都存在的基线下移问题，即跟打时，跟打过的字下移。
+      padding: 0 !important; /* 强制清除内边距 */
+      margin: 0 !important; /* 强制清除外边距 */
+    }
+
     .pending {
       // font-weight: normal;
       color: var(--pending);
@@ -393,6 +403,21 @@ html, body {
       color: var(--typed);
       background-color: var(--correct);
     }
+
+    // 腾讯 CodeBuddy DS 3.1 :  专门针对 pending 文字的布局修复。
+    // 问题备忘：在 chrome 中，在跟打前，展示区的各行的换行行为很奇怪，随着我不断跟打，展示区的换行行为会改变，在某一行跟打完成后，该行和跟打区的对齐变得一致了。比如“因为生活从来如此，简单重复，却总有意外的微光。现在，我们看看这平凡一日。”这两句话，在尚未开始跟打时，在展示区会显示成三句，分别在“简”后之和“我”之后断句了。在跟打时，在跟打到“简单重复”的“复”时，变成在分别在“重”后之和“我”之后断句了。继续跟打的话，第一行的字继续增加。打到“却”时，跟打区“我”后面的断句消失了。在跟打完成后，这两句话在展示区和跟打区完全对齐，只在“微”后断句了。请问这个问题可能是什么原因？应该怎么解决？
+    // 遗留问题：在本行的下一行起首是标点时，跟打完本行的最后一个字后，跟打新一行的标点后，上一行的最后那个字会下移到新一行（是为了避免某一行的起首是标点？）
+    /*
+     * 腾讯 CodeBuddy DS 3.1 :  Chrome渲染行为说明：
+     * 即使.pending, .correct中的样式被应用，但Chrome对低特异性选择器的布局计算可能不够积极。
+     * 高特异性选择器（div.code.pending）会触发Chrome更完整的布局计算，确保正确换行。
+     * 这种现象是由于Chrome的渲染优化机制 - 高特异性选择器强制浏览器进行更认真的布局计算。
+     */
+    div.code.pending {
+      display: inline-block;
+      vertical-align: top;
+    }
+
     .error {
       @extend .correct;
       background-color: var(--error);
