@@ -57,3 +57,17 @@ export const erjian2xuan: string[] = [
 export const erjian1Set = new Set(erjian1xuan)
 export const erjian1ZSet = new Set(erjian1xuanZhongdian)
 export const erjian2Set = new Set(erjian2xuan)
+
+// 判断是否为二简词
+
+export function isErjian1XuanPutong (text: string): boolean {
+  return erjian1Set.has(text) && !erjian1ZSet.has(text)
+}
+
+export function isErjian1XuanZhongdian (text: string): boolean {
+  return erjian1ZSet.has(text)
+}
+
+export function isErjian2Xuan (text: string): boolean {
+  return erjian2Set.has(text)
+}

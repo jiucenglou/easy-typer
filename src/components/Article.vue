@@ -18,8 +18,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import Words from '@/components/Words.vue'
 
-import { yijianSet } from '../xiaoheJianma/yijianWords' // 你的一简词列表
-import { erjian1Set, erjian1ZSet, erjian2Set } from '../xiaoheJianma/erjianWords' // 你的二简词列表
+import { isYijianci } from '../xiaoheJianma/yijianWords' // 你的一简词列表
+import { isErjian1XuanPutong, isErjian1XuanZhongdian, isErjian2Xuan } from '../xiaoheJianma/erjianWords' // 你的二简词列表
 
 const article = namespace('article')
 const racing = namespace('racing')
@@ -97,22 +97,39 @@ export default class Article extends Vue {
       const pending = this.content.substring(inputLength)
       // words.push(new Word(inputLength, pending, 'pending'))
       // 未打部分按一简词和二简词分割
+      // 为了改善布局，不再保存为可能含多个字的 span，而是保存为仅含单字的 span：首先，标记每个字属于哪个词组
+      const hintMap = new Map<number, string>()
       let i = 0
       while (i < pending.length) {
         let found = false
         for (let len = 4; len >= 2; len -= 2) {
           const part = pending.substr(i, len)
-          if (yijianSet.has(part) || erjian1Set.has(part) || erjian2Set.has(part)) {
-            words.push(new Word(inputLength + i, part, 'pending'))
+          let hintType = ''
+          if (isYijianci(part)) hintType = 'yijian'
+          else if (isErjian1XuanPutong(part)) hintType = 'erjian1Putong'
+          else if (isErjian1XuanZhongdian(part)) hintType = 'erjian1Zhongdian'
+          else if (isErjian2Xuan(part)) hintType = 'erjian2'
+          if (hintType) {
+            for (let j = 0; j < len; j++) {
+              hintMap.set(i + j, hintType)
+            }
             i += len
             found = true
             break
           }
         }
         if (!found) {
-          words.push(new Word(inputLength + i, pending[i], 'pending'))
           i += 1
         }
+      }
+
+      // 为了改善布局，不再保存为可能含多个字的 span，而是保存为仅含单字的 span：然后，pending部分始终单字分割，并附加 hintType
+      for (let k = 0; k < pending.length; k++) {
+        const char = pending[k]
+        const hintType = hintMap.get(k)
+        const word = new Word(inputLength + k, char, 'pending')
+        if (hintType) word.hintType = hintType
+        words.push(word)
       }
     } else {
       const { path, vertices } = this.shortest

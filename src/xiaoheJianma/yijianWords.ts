@@ -7,3 +7,7 @@ export const yijianci: string[] = [
 ]
 
 export const yijianSet = new Set(yijianci)
+
+export function isYijianci (text: string): boolean {
+  return yijianSet.has(text)
+}

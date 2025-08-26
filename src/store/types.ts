@@ -79,6 +79,10 @@ export class Word {
    * 编码
    */
   codings: Array<Coding>;
+  /**
+   * 以下划线方式提示小鹤一简词和二简词
+   */
+  hintType?: string;
 
   constructor (id: number, text: string, type = '', autoSelect = false, select = '', codings: Array<Coding> = []) {
     this.id = id
