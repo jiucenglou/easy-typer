@@ -319,6 +319,7 @@ html, body {
 // }
 
 #article-main {
+  padding: 5px 15px;  
   .article {
     font-family: var(--racing-font);
     height: calc((var(--font-size) + 2rem + 5px) * var(--article-rows));
@@ -329,7 +330,7 @@ html, body {
       font-size: var(--font-size);
       line-height: calc(var(--font-size) + 1rem);
       margin-bottom: 2px;
-      letter-spacing: 1rem;
+      letter-spacing: normal;
       text-align: center;
     }
 
@@ -378,7 +379,7 @@ html, body {
     &.inline {
       div {
         display: inline;
-        letter-spacing: 2px;
+        letter-spacing: normal;
         line-height: calc(var(--font-size) + 1.4rem);
       }
     }
