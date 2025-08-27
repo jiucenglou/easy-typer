@@ -59,9 +59,18 @@ try {
   execSync('yarn build', { stdio: 'inherit' });
   console.log('Web应用构建完成！');
   
+  // 步骤5: 上传到云主机
+  console.log('开始上传到云主机...');
+  console.log('运行 scp 命令将文件复制到云主机...');
+  execSync('scp -r docs 腾讯云:~/Downloads/docs', { stdio: 'inherit' });
+  
+  console.log('通过 SSH 将文件部署到网站目录...');
+  execSync('ssh 腾讯云 sudo cp ~/Downloads/docs/* -r /var/www/html/', { stdio: 'inherit' });
+  console.log('云主机部署完成！');
+  
   console.log('全部构建过程已完成！');
   console.log('1. electron打包位于dist目录');
-  console.log('2. Web应用位于dist目录，可上传至云主机');
+  console.log('2. Web应用位于docs目录，已上传并部署到云主机');
   
 } catch (error) {
   // 如果出错，恢复原始文件内容
