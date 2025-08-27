@@ -53,26 +53,8 @@ try {
   fs.writeFileSync(easyTyperPath, restoredContent);
   console.log('已将baseURL修改回相对地址');
   
-  // 步骤4: 运行yarn build生成用于上传到云主机的版本
-  console.log('开始构建Web应用...');
-  console.log('运行 yarn build...');
-  execSync('yarn build', { stdio: 'inherit' });
-  console.log('Web应用构建完成！');
-  
-  // 步骤5: 上传到云主机
-  console.log('开始上传到云主机...');
-  console.log('运行 scp 命令将文件复制到云主机...');
-  execSync('scp -r docs/* 腾讯云:~/Downloads/docs/', { stdio: 'inherit' });
-  console.log('设置正确的文件权限...');
-  execSync('ssh 腾讯云 "chmod -R 755 ~/Downloads/docs/"', { stdio: 'inherit' });
-  
-  console.log('通过 SSH 将文件部署到网站目录...');
-  execSync('ssh 腾讯云 "sudo cp -r ~/Downloads/docs/* /var/www/html/"', { stdio: 'inherit' });
-  console.log('云主机部署完成！');
-  
-  console.log('全部构建过程已完成！');
-  console.log('1. electron打包位于dist目录');
-  console.log('2. Web应用位于docs目录，已上传并部署到云主机');
+  console.log('Electron打包完成！');
+  console.log('electron打包位于dist目录');
   
 } catch (error) {
   // 如果出错，恢复原始文件内容

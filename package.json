@@ -13,7 +13,8 @@
     "pack": "electron-builder --dir",
     "package-mac": "npx electron-packager . 木易跟打器 --overwrite --platform=darwin --arch=x64 --out=target --icon=public/img/icons/logo-large.icns",
     "start": "electron .",
-    "webpack-main": "webpack"
+    "webpack-main": "webpack",
+    "deploy": "gh-pages -d docs"
   },
   "main": "electron/main.js",
   "dependencies": {
@@ -54,6 +55,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
+    "gh-pages": "4.0.0",
     "github-markdown-css": "^4.0.0",
     "heatmap.js": "^2.0.5",
     "lint-staged": "^9.5.0",
