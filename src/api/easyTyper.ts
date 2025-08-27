@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { LoginState } from '@/store/types'
 import { HistoriesResponse, KataOption, KataOptions, NewsResponse } from '@/models/articleModels'
 import { wikiTypeMap, wikiTypes } from './constant'
+import { options } from '../options'
 
 const HASH_KEY = '3198f2e6892d5bdd0630505e20acfc849a12e03c5a1da4c5c41a180c44c67eeb85ef0bc6992d9b0c3926da22ebaa55346bcd76d8556321e044530eff3d868e2636514072'
 
@@ -179,11 +180,33 @@ const getTodayHistories = (): Promise<HistoriesResponse[]> => {
 }
 
 const getKataList = (): Promise<KataOptions[]> => {
-  return axiosInstance.get('/api/r/kata/list')
+  // return axiosInstance.get('/api/r/kata/list')
+
+  // 使用预定义的可靠文章列表
+  for (let i = 0; i < options.length; i++) {
+    const suboption = options[i]
+    for (let j = 0; j < suboption.children.length; j++) {
+      const current = suboption.children[j]
+      delete current.children
+    }
+  }
+  return Promise.resolve(options)
 }
 
 const getKataOptionById = (id: number): Promise<KataOption> => {
-  return axiosInstance.get(`/api/r/kata/option/${id}`)
+  // return axiosInstance.get(`/api/r/kata/option/${id}`)
+
+  // 使用预定义的可靠文章列表
+  for (let i = 0; i < options.length; i++) {
+    const suboption = options[i]
+    for (let j = 0; j < suboption.children.length; j++) {
+      const current = suboption.children[j]
+      if (current.id === id) {
+        return Promise.resolve({ title: current.label, content: current.value })
+      }
+    }
+  }
+  return Promise.reject(new Error(`Article with id ${id} not found`))
 }
 
 const getSingleFront500 = () => {
