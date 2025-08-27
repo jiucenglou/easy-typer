@@ -62,10 +62,12 @@ try {
   // 步骤5: 上传到云主机
   console.log('开始上传到云主机...');
   console.log('运行 scp 命令将文件复制到云主机...');
-  execSync('scp -r docs 腾讯云:~/Downloads/docs', { stdio: 'inherit' });
+  execSync('scp -r docs/* 腾讯云:~/Downloads/docs/', { stdio: 'inherit' });
+  console.log('设置正确的文件权限...');
+  execSync('ssh 腾讯云 "chmod -R 755 ~/Downloads/docs/"', { stdio: 'inherit' });
   
   console.log('通过 SSH 将文件部署到网站目录...');
-  execSync('ssh 腾讯云 sudo cp ~/Downloads/docs/* -r /var/www/html/', { stdio: 'inherit' });
+  execSync('ssh 腾讯云 "sudo cp -r ~/Downloads/docs/* /var/www/html/"', { stdio: 'inherit' });
   console.log('云主机部署完成！');
   
   console.log('全部构建过程已完成！');
