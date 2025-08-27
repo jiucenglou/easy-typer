@@ -8,9 +8,8 @@ import { options } from '../options'
 const HASH_KEY = '3198f2e6892d5bdd0630505e20acfc849a12e03c5a1da4c5c41a180c44c67eeb85ef0bc6992d9b0c3926da22ebaa55346bcd76d8556321e044530eff3d868e2636514072'
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NODE_ENV === 'production'
-    ? 'https://typer.owenyang.top'
-    : 'http://localhost:8080', // 将 localhost 换成运行 yarn serve 的电脑的 ip 地址，就可以在同一局域网的其他设备上访问修改版的木易了
+  baseURL: '/',
+  // baseURL: 'https://typer.owenyang.top', // 运行 yarn build 和 yarn dist 创建 electron 打包之前, 需要把 baseURL 换成绝对地址
   responseType: 'json'
 })
 axiosInstance.interceptors.request.use((config) => {
