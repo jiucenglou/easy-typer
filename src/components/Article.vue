@@ -20,6 +20,9 @@ import Words from '@/components/Words.vue'
 
 import { isYijianci } from '../xiaoheJianma/yijianWords' // 你的一简词列表
 import { isErjian1XuanPutong, isErjian1XuanZhongdian, isErjian2Xuan } from '../xiaoheJianma/erjianWords' // 你的二简词列表
+import { isSiziWord } from '../xiaoheJianma/siziWords'
+import { isSanziWord } from '../xiaoheJianma/sanziWords'
+import { isErziWord } from '../xiaoheJianma/erziWords'
 
 const article = namespace('article')
 const racing = namespace('racing')
@@ -102,13 +105,16 @@ export default class Article extends Vue {
       let i = 0
       while (i < pending.length) {
         let found = false
-        for (let len = 4; len >= 2; len -= 2) {
+        for (let len = 4; len >= 2; len -= 1) {
           const part = pending.substr(i, len)
           let hintType = ''
-          if (isYijianci(part)) hintType = 'yijian'
+          if (isSiziWord(part)) hintType = 'sizi'
+          else if (isSanziWord(part)) hintType = 'sanzi'
+          else if (isYijianci(part)) hintType = 'yijian'
           else if (isErjian1XuanPutong(part)) hintType = 'erjian1Putong'
           else if (isErjian1XuanZhongdian(part)) hintType = 'erjian1Zhongdian'
           else if (isErjian2Xuan(part)) hintType = 'erjian2'
+          else if (isErziWord(part)) hintType = 'erzi'
           if (hintType) {
             for (let j = 0; j < len; j++) {
               hintMap.set(i + j, hintType)

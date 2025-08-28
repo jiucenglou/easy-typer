@@ -5,7 +5,10 @@
         'yijianci': word.hintType === 'yijian',
         'erjian-1xuan-putong': word.hintType === 'erjian1Putong',
         'erjian-1xuan-zhongdian': word.hintType === 'erjian1Zhongdian',
-        'erjian-2xuan': word.hintType === 'erjian2'
+        'erjian-2xuan': word.hintType === 'erjian2',
+        'sizi': word.hintType === 'sizi',
+        'sanzi': word.hintType === 'sanzi',
+        'erzi': word.hintType === 'erzi'
       }"
     >{{ word.text }}</span>
     <label v-if="hasHint">{{ hintText }}</label>
@@ -100,27 +103,34 @@ export default class Words extends Vue {
 .yijianci {
   text-decoration: underline;
   text-decoration-style: double;
-  text-underline-offset: 2px;
+  text-underline-offset: 4px;
   text-decoration-thickness: 4px;
   text-decoration-color: #19d22c;
 }
 .erjian-1xuan-putong {
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 4px;
   text-decoration-thickness: 2px;
   text-decoration-color: #1976d2;
 }
 .erjian-1xuan-zhongdian {
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 4px;
   text-decoration-thickness: 4px;
   text-decoration-color: #1976d2;
 }
 .erjian-2xuan {
   text-decoration: underline;
   text-decoration-style: wavy;
-  text-underline-offset: 2px;
+  text-underline-offset: 4px;
   text-decoration-thickness: 2px;
   text-decoration-color: #d219cf;
+}
+.sizi, .sanzi, .erzi {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #d28819;
 }
 </style>
