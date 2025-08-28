@@ -450,6 +450,10 @@ export interface InterfaceStyle {
    * 输入区行数
    */
   '--input-rows': number;
+  /**
+   * 用下划线提示小鹤四字词、三字次、一简词、二简词、以及其他二字词
+   */
+  '--hint-xiaohe-jianma': boolean;
 }
 
 export class SettingState {
@@ -494,6 +498,11 @@ export class SettingState {
    * 输入区行数
    */
   inputRows = 1
+
+  /**
+   * 用下划线提示小鹤四字词、三字次、一简词、二简词、以及其他二字词
+   */
+  hintXiaoheJianma = true
 
   /**
    * 未打文字颜色

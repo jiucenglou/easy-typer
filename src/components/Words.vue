@@ -2,13 +2,13 @@
   <div :class="style">
     <span
       :class="{
-        'yijianci': word.hintType === 'yijian',
-        'erjian-1xuan-putong': word.hintType === 'erjian1Putong',
-        'erjian-1xuan-zhongdian': word.hintType === 'erjian1Zhongdian',
-        'erjian-2xuan': word.hintType === 'erjian2',
-        'sizi': word.hintType === 'sizi',
-        'sanzi': word.hintType === 'sanzi',
-        'erzi': word.hintType === 'erzi'
+        'yijianci': hasXiaoheJianmaHint && word.hintType === 'yijian',
+        'erjian-1xuan-putong': hasXiaoheJianmaHint && word.hintType === 'erjian1Putong',
+        'erjian-1xuan-zhongdian': hasXiaoheJianmaHint && word.hintType === 'erjian1Zhongdian',
+        'erjian-2xuan': hasXiaoheJianmaHint && word.hintType === 'erjian2',
+        'sizi': hasXiaoheJianmaHint && word.hintType === 'sizi',
+        'sanzi': hasXiaoheJianmaHint && word.hintType === 'sanzi',
+        'erzi': hasXiaoheJianmaHint && word.hintType === 'erzi'
       }"
     >{{ word.text }}</span>
     <label v-if="hasHint">{{ hintText }}</label>
@@ -38,6 +38,14 @@ export default class Words extends Vue {
 
   @setting.State('disableSingleHint')
   private disableSingleHint!: boolean
+
+  @setting.State('hintXiaoheJianma')
+  private hintXiaoheJianma!: boolean
+
+  // 获取错字集合的大小
+  get hasXiaoheJianmaHint (): boolean {
+    return this.hintXiaoheJianma
+  }
 
   get single (): boolean {
     const word = this.word

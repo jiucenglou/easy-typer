@@ -150,6 +150,24 @@
                         </div>
                       </el-col>
                     </el-row>
+                    <el-row>
+                      &nbsp;
+                    </el-row>
+                    <el-row>
+                      <el-col :span="16" :offset="1">
+                        <div class="article-settings_item">
+                          <span class="label">用下划线提示小鹤一简词（绿）、二简词（首蓝、次紫）及其他二三四字词（褐）</span>
+                        </div>
+                      </el-col>
+                      <el-col :span="4" :offset="1">
+                        <div class="article-settings_item">
+                          <el-switch
+                            v-model="tempHintXiaoheJianma"
+                            @change="handleSwitchChange">
+                          </el-switch>
+                        </div>
+                      </el-col>
+                    </el-row>
                   </div>
                 </el-popover>
             </el-col>
@@ -246,6 +264,7 @@ import { criteriaActionText, isMobile } from '@/store/util/common'
 import { kataHistory, KataHistoryState } from '@/store/util/KataHistory'
 import { KataArticle } from '@/store/kata'
 import { wikiTypeMap } from '@/api/constant'
+import { h } from 'vue'
 
 const article = namespace('article')
 const racing = namespace('racing')
@@ -349,6 +368,9 @@ export default class Home extends Vue {
   @setting.State('fontSize')
   private fontSize!: string
 
+  @setting.State('hintXiaoheJianma')
+  private hintXiaoheJianma!: boolean
+
   @setting.Mutation('update')
   private updateSettings!: Function
 
@@ -387,6 +409,7 @@ export default class Home extends Vue {
   historyList: KataHistoryState[] = []
   private articleText = ''
 
+  private tempHintXiaoheJianma = true
   private tempArticleRows = 4
   private tempInputRows = 1
   private tempFontSize = 2.4
@@ -480,6 +503,18 @@ export default class Home extends Vue {
     })
   }
 
+  @Watch('hintXiaoheJianma')
+  rawHintXiaoheJianmaChange (enabled: boolean) {
+    this.tempHintXiaoheJianma = enabled
+  }
+
+  @Watch('tempHintXiaoheJianma')
+  hintXiaoheJianmaChange (enabled: boolean) {
+    this.updateSettings({
+      hintXiaoheJianma: enabled
+    })
+  }
+
   @Watch('fontWeight')
   rawFontWeightChange (weight: number) {
     this.tempFontWeight = +weight
@@ -505,6 +540,10 @@ export default class Home extends Vue {
   }
 
   handleSliderChange () {
+    this.hasUpdated = true
+  }
+
+  handleSwitchChange () {
     this.hasUpdated = true
   }
 
@@ -558,6 +597,7 @@ export default class Home extends Vue {
     this.rawInputRowsChange(this.inputRows)
     this.rawFontWeightChange(this.fontWeight)
     this.rawFontSizeChange(this.fontSize)
+    this.rawHintXiaoheJianmaChange(this.hintXiaoheJianma)
 
     // this.authChange(this.authenticated)
 
