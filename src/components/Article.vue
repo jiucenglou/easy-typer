@@ -7,6 +7,12 @@
       <span>第{{ identity }}段</span>
       <span>{{ title || '未知' }}</span>
       <span>共{{ length }}字</span>
+      <el-button
+        v-if="errorCharsSize > 0"
+        type="text"
+        @click="handleCreateErrorCharsPractice">
+        错误×{{ errorCharsSize }}次，点击练习
+      </el-button>
     </el-divider>
   </div>
 </template>
@@ -27,6 +33,7 @@ import { isErziWord } from '../xiaoheJianma/erziWords'
 const article = namespace('article')
 const racing = namespace('racing')
 const setting = namespace('setting')
+const kata = namespace('kata')
 
 @Component({
   components: { Words }
@@ -64,6 +71,18 @@ export default class Article extends Vue {
 
   @setting.State('hintOptions')
   private hintOptions!: Array<string>
+
+  // 全局错字集合
+  @kata.State('errorChars')
+  private errorChars!: string[]
+
+  // 获取错字集合的大小
+  get errorCharsSize (): number {
+    return this.errorChars ? this.errorChars.length : 0
+  }
+
+  @kata.Action('createErrorCharsPractice')
+  private createErrorCharsPractice!: Function
 
   get articleStyle (): Array<string> {
     let mode = 'inline'
@@ -202,6 +221,13 @@ export default class Article extends Vue {
       const target = targetWords[i]
       const correct = v === target
 
+      // 收集打错的字符 - 添加到全局错字集合
+      // 也可以提前到 racing.ts 中的 accept action 中收集（这也是 AI 给的建议），
+      // 但是这里已经进行了错字的判断，所以直接在这里收集～
+      if (!correct) {
+        this.$store.dispatch('kata/addErrorChar', target)
+      }
+
       if (correct !== lastCorrect) {
         words.push(new Word(index + i - text.length, text, lastCorrect ? 'correct' : 'error'))
         text = ''
@@ -229,6 +255,11 @@ export default class Article extends Vue {
       this.check(to, source, value.text, words)
       return length > from ? 0 : length
     }
+  }
+
+  // 处理创建错字练习
+  handleCreateErrorCharsPractice () {
+    this.createErrorCharsPractice()
   }
 }
 </script>

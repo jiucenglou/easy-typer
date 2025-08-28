@@ -1,6 +1,7 @@
 import eapi from '@/api/easyTyper'
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { Achievement, QuickTypingState, RacingState, Word } from './types'
+import type { Match } from '@/api/easyTyper'
 import { accuracyRank, isMobile, speedRank } from './util/common'
 import db from './util/Database'
 import { keyboard } from './util/keyboard'

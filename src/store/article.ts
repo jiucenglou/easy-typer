@@ -1,4 +1,5 @@
-import { eapi, Match } from '@/api/easyTyper'
+import { eapi } from '@/api/easyTyper'
+import type { Match } from '@/api/easyTyper'
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { ArticleState, Coding, KataState, QuickTypingState, SettingState, Word } from './types'
 import { shuffleText, shuffleText2, isNative, replaceTextSpace, shuffle, splitLongText, generateRandomLetters, generateRandomNumbers, generateLettersAndNumbers } from './util/common'

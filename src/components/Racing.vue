@@ -76,6 +76,10 @@ export default class Racing extends Vue {
    * 最后一次键入的文字
    */
   private last = ''
+  /**
+   * 输入法编辑状态下是否使用了退格键
+   */
+  private backspacedDuringComposition = false
 
   get isDisabled (): boolean {
     return this.status !== 'typing' && this.status !== 'init'
@@ -152,6 +156,7 @@ export default class Racing extends Vue {
 
   compositionStart () {
     this.compositions = 0
+    this.backspacedDuringComposition = false
   }
 
   compositionUpdate () {
@@ -163,6 +168,17 @@ export default class Racing extends Vue {
     this.last = data
     const length = data.length
     const { compositions } = this
+
+    // 如果在输入法编辑过程中使用了退格键
+    if (this.backspacedDuringComposition) {
+      // 直接将整个上屏的内容记录为错误
+      if (data && data.length > 0) {
+        this.$store.commit('kata/addErrorChar', data)
+      }
+      // 重置标志
+      this.backspacedDuringComposition = false
+    }
+
     if (length === 0 && compositions > 1) {
       // 未上屏
       this.cleared(compositions)
@@ -182,6 +198,9 @@ export default class Racing extends Vue {
     if (e.isComposing && e.code === 'Backspace') {
       // 每次删除 -2，因为删除键也会触发 compositionupdate
       this.compositions -= 2
+
+      // 标记在输入法编辑状态下使用了退格键
+      this.backspacedDuringComposition = true
     }
   }
 

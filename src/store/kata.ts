@@ -35,6 +35,7 @@ const mutations: MutationTree<KataState> = {
     state.isReading = false
     state.criteriaOpen = false
     state.achievedCount = 0
+    state.errorChars = []
     if (isMobile()) {
       state.criteriaHitSpeed = 0
     }
@@ -110,12 +111,58 @@ const mutations: MutationTree<KataState> = {
 
   achievedCount: (state, count: number) => {
     state.achievedCount = count
+  },
+
+  // 添加错字
+  addErrorChar: (state, char: string) => {
+    if (!state.errorChars.includes(char)) {
+      state.errorChars.push(char)
+    }
+  },
+
+  // 清空错字集合
+  clearErrorChars: (state) => {
+    state.errorChars = []
   }
 }
 
 const actions: ActionTree<KataState, QuickTypingState> = {
   init ({ commit }): void {
     commit('init')
+  },
+
+  // 添加错字
+  addErrorChar ({ commit }, char: string): void {
+    commit('addErrorChar', char)
+  },
+
+  // 清空错字集合
+  clearErrorChars ({ commit }): void {
+    commit('clearErrorChars')
+  },
+
+  // 创建错字练习段落
+  createErrorCharsPractice ({ state, commit, dispatch }): void {
+    if (state.errorChars.length === 0) {
+      Message.info('没有出现错误，无需练习')
+      return
+    }
+
+    // 创建练习文本，可能不用重复3次
+    const practiceText = state.errorChars.join('') // + state.errorChars.join('') + state.errorChars.join('')
+
+    // 创建一个新的Match对象
+    const match = {
+      title: '错误集',
+      content: practiceText.trim(),
+      number: '99999'
+    }
+
+    // 清空错题集
+    commit('clearErrorChars')
+
+    // 加载这个新的练习段落
+    dispatch('article/loadMatch', match, { root: true })
   },
   load ({ commit }, newState): void {
     commit('load', newState)
