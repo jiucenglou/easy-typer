@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Typer</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+      color: #333;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #4a6fa5;
+    }
+    p {
+      line-height: 1.6;
+    }
+    .redirect {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Easy Typer</h1>
+    <p>一个简单易用的打字练习工具</p>
+    <p>请稍候，正在重定向到主页面...</p>
+    <div class="redirect">如果没有自动跳转，请<a href="https://jiucenglou.github.io/easy-typer/">点击这里</a></div>
+    
+    <script>
+      // 3秒后重定向到实际应用页面
+      setTimeout(function() {
+        window.location.href = 'https://jiucenglou.github.io/easy-typer/';
+      }, 3000);
+    </script>
+  </div>
+</body>
+</html>
