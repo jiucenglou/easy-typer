@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f3e8c9ad23d537951208ea68d8a22421",
+    "revision": "1dbac34dfcdbc1f966b57a6766493234",
     "url": "/easy-typer/app.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/easy-typer/css/about.bf4acf83.css"
   },
   {
-    "revision": "f11923991f96ef0fc275",
-    "url": "/easy-typer/css/app.08e2811a.css"
+    "revision": "b0fe120e8b622a5c1dae",
+    "url": "/easy-typer/css/app.9cd6f2a7.css"
   },
   {
     "revision": "0781b473bc2513dd0db8",
@@ -84,8 +84,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/easy-typer/js/about~summary.d5e7c452.js"
   },
   {
-    "revision": "f11923991f96ef0fc275",
-    "url": "/easy-typer/js/app.60fda415.js"
+    "revision": "b0fe120e8b622a5c1dae",
+    "url": "/easy-typer/js/app.64e99c72.js"
   },
   {
     "revision": "36e2257101b42e310ebf",
