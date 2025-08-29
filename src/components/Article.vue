@@ -364,6 +364,18 @@ export default class Article extends Vue {
     const charElement = target.closest('span') || target
     const text = charElement.textContent?.trim() || ''
 
+    // 只处理单字符的span（未打的文本）
+    // 对于已打的文本（多字符span），不显示tooltip
+    if (text.length !== 1) {
+      return
+    }
+
+    // 确保是汉字（Unicode范围检查）
+    const charCode = text.charCodeAt(0)
+    if (!(charCode >= 0x4E00 && charCode <= 0x9FFF)) {
+      return // 不是汉字，不显示tooltip
+    }
+
     // 记录鼠标位置
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
