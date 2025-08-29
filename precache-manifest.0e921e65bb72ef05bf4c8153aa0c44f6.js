@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1dbac34dfcdbc1f966b57a6766493234",
+    "revision": "293bd33f508e03f00f8585044b05028f",
     "url": "/easy-typer/app.html"
   },
   {
@@ -8,27 +8,27 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/easy-typer/baidu_verify_codeva-27b8eJ5KJd.html"
   },
   {
-    "revision": "6659f8b22fb9d50e1396",
+    "revision": "e36890760902fa5bbb08",
     "url": "/easy-typer/css/about.bf4acf83.css"
   },
   {
-    "revision": "b0fe120e8b622a5c1dae",
-    "url": "/easy-typer/css/app.9cd6f2a7.css"
+    "revision": "5168fea0c34c526ff4cb",
+    "url": "/easy-typer/css/app.ec2fca20.css"
   },
   {
-    "revision": "0781b473bc2513dd0db8",
+    "revision": "1fd9b39eb2b3b6161a77",
     "url": "/easy-typer/css/chunk-vendors.cc5f3adf.css"
   },
   {
-    "revision": "f0d5b61e7778ab7df116",
+    "revision": "1400b142261493712f68",
     "url": "/easy-typer/css/kata.6a75c237.css"
   },
   {
-    "revision": "2b67cc6a4334b42c6590",
+    "revision": "10f22c972e19272ba72b",
     "url": "/easy-typer/css/practice.691b3b29.css"
   },
   {
-    "revision": "f1b6f34a0c50ce59396f",
+    "revision": "400b7df9d7c89752ed7a",
     "url": "/easy-typer/css/setting.ff2f260c.css"
   },
   {
@@ -72,8 +72,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/easy-typer/img/ui@2x.png"
   },
   {
-    "revision": "6659f8b22fb9d50e1396",
-    "url": "/easy-typer/js/about.590f50b8.js"
+    "revision": "e36890760902fa5bbb08",
+    "url": "/easy-typer/js/about.e8e6d8e1.js"
   },
   {
     "revision": "1e867c2af607dc83291e",
@@ -84,36 +84,36 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/easy-typer/js/about~summary.d5e7c452.js"
   },
   {
-    "revision": "b0fe120e8b622a5c1dae",
-    "url": "/easy-typer/js/app.64e99c72.js"
+    "revision": "5168fea0c34c526ff4cb",
+    "url": "/easy-typer/js/app.1c9ba663.js"
   },
   {
-    "revision": "36e2257101b42e310ebf",
-    "url": "/easy-typer/js/changelog.ce1bb93a.js"
+    "revision": "1696e3db7676f6446c06",
+    "url": "/easy-typer/js/changelog.80dd6a15.js"
   },
   {
-    "revision": "0781b473bc2513dd0db8",
-    "url": "/easy-typer/js/chunk-vendors.e052aed1.js"
+    "revision": "1fd9b39eb2b3b6161a77",
+    "url": "/easy-typer/js/chunk-vendors.d61a65de.js"
   },
   {
-    "revision": "ecd058f094c6052d8fff",
-    "url": "/easy-typer/js/help.d808ff27.js"
+    "revision": "a714d51edf126899da8e",
+    "url": "/easy-typer/js/help.387311e0.js"
   },
   {
-    "revision": "f0d5b61e7778ab7df116",
-    "url": "/easy-typer/js/kata.cda06616.js"
+    "revision": "1400b142261493712f68",
+    "url": "/easy-typer/js/kata.48af794f.js"
   },
   {
-    "revision": "2b67cc6a4334b42c6590",
-    "url": "/easy-typer/js/practice.fb1dd7a7.js"
+    "revision": "10f22c972e19272ba72b",
+    "url": "/easy-typer/js/practice.a758cefa.js"
   },
   {
-    "revision": "f1b6f34a0c50ce59396f",
-    "url": "/easy-typer/js/setting.26710dc4.js"
+    "revision": "400b7df9d7c89752ed7a",
+    "url": "/easy-typer/js/setting.532f70c2.js"
   },
   {
-    "revision": "c4174c7386649e8ee059",
-    "url": "/easy-typer/js/summary.1a1f501f.js"
+    "revision": "0e33b6eb98e730a02ae1",
+    "url": "/easy-typer/js/summary.b1b396ec.js"
   },
   {
     "revision": "1f290b536fe89af53ebb7d8ea1639c2a",
