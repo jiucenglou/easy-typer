@@ -423,12 +423,15 @@ const actions: ActionTree<RacingState, QuickTypingState> = {
     commit('init')
   },
 
-  retry ({ commit, state }) {
+  retry ({ commit, state, dispatch }) {
     if (state.timer) {
       clearInterval(state.timer)
     }
 
     if (state.status !== 'init') {
+      // 重打开始前，清空错字数组
+      dispatch('kata/clearErrorChars', null, { root: true })
+
       commit('retry')
     }
   },
