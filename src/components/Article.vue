@@ -1,6 +1,12 @@
 <template>
   <div id="article-main">
-    <el-row ref="board" :class="articleStyle">
+    <el-row
+      ref="board"
+      :class="articleStyle"
+      @mousemove.capture="handleMouseMove"
+      @mouseover="handleCharHover"
+      @mouseout="clearHoveredChar"
+    >
       <Words v-for="word in words" :key="word.id" :word="word"/>
     </el-row>
     <el-divider class="article-info" content-position="right">
@@ -20,6 +26,14 @@
         </el-button>
       </el-tooltip>
     </el-divider>
+
+    <!-- 小鹤音形码表提示 -->
+    <ArticleChaxingTooltip
+      v-if="hoveredChar"
+      :character="hoveredChar"
+      :position="mousePosition"
+      :enabled="true"
+    />
   </div>
 </template>
 
@@ -29,12 +43,14 @@ import { Edge, ShortestPath } from '@/store/util/Graph'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import Words from '@/components/Words.vue'
+import ArticleChaxingTooltip from '@/components/ArticleChaxingTooltip.vue'
 
 import { isYijianci } from '../xiaoheJianma/yijianWords' // 你的一简词列表
 import { isErjian1XuanPutong, isErjian1XuanZhongdian, isErjian2Xuan } from '../xiaoheJianma/erjianWords' // 你的二简词列表
 import { isSiziWord } from '../xiaoheJianma/siziWords'
 import { isSanziWord } from '../xiaoheJianma/sanziWords'
 import { isErziWord } from '../xiaoheJianma/erziWords'
+import { ChaXing } from '../xiaoheJianma/zi'
 
 const article = namespace('article')
 const racing = namespace('racing')
@@ -42,9 +58,14 @@ const setting = namespace('setting')
 const kata = namespace('kata')
 
 @Component({
-  components: { Words }
+  components: { Words, ArticleChaxingTooltip }
 })
 export default class Article extends Vue {
+  $refs!: {
+    board: Vue & { $el: HTMLElement };
+  }
+
+  $store!: Vue['$store']
   @article.State('content')
   private content!: string
 
@@ -77,6 +98,10 @@ export default class Article extends Vue {
 
   @setting.State('hintOptions')
   private hintOptions!: Array<string>
+
+  // 小鹤音形码表提示相关
+  private hoveredChar: string | null = null
+  private mousePosition = { x: 0, y: 0 }
 
   // 全局错字集合
   @kata.State('errorChars')
@@ -274,6 +299,94 @@ export default class Article extends Vue {
   // 处理创建错字练习
   handleCreateErrorCharsPractice () {
     this.createErrorCharsPractice()
+  }
+
+  // 小鹤音形查形提示的相关方法
+
+  mounted () {
+    const el = this.$refs.board?.$el
+    if (el) {
+      // 移除所有Vue绑定的事件监听器
+      el.removeEventListener('mousemove', this.handleMouseMove)
+      el.removeEventListener('mouseover', this.handleCharHover)
+      el.removeEventListener('mouseout', this.clearHoveredChar)
+
+      // 直接绑定原生事件
+      el.addEventListener('mousemove', this.handleMouseMove, { passive: true })
+      el.addEventListener('mouseover', this.handleCharHover, { passive: true })
+      el.addEventListener('mouseout', this.clearHoveredChar, { passive: true })
+
+      console.log('已重新绑定原生事件监听器')
+    }
+  }
+
+  /**
+   * 处理鼠标移动事件，更新鼠标位置
+   */
+  private debounceTimer: number | null = null
+
+  private lastUpdateTime = 0
+
+  handleMouseMove (event: MouseEvent) {
+    const now = Date.now()
+    // 限制更新频率为每秒60次
+    if (now - this.lastUpdateTime < 16) return
+
+    this.lastUpdateTime = now
+    const newPos = {
+      x: event.clientX + 20,
+      y: event.clientY + 20
+    }
+
+    // 强制触发响应式更新
+    this.mousePosition = JSON.parse(JSON.stringify(newPos))
+    console.log('更新位置:', this.mousePosition)
+  }
+
+  /**
+   * 处理字符悬停事件
+   */
+  async handleCharHover (event: MouseEvent) {
+    // 确保码表已加载
+    if (!ChaXing.getInstance().isLoaded) {
+      await ChaXing.getInstance().loadChaxingData()
+    }
+
+    const target = event.target as HTMLElement
+    if (!target) return
+
+    // 获取最接近的字符元素
+    const charElement = target.closest('span') || target
+    const text = charElement.textContent?.trim() || ''
+
+    this.hoveredChar = text
+
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+    this.mousePosition = {
+      x: Math.min(event.clientX + 20, viewportWidth - 220),
+      y: Math.min(event.clientY + 20, viewportHeight - 140)
+    }
+    // // 只处理单字符
+    // if (text.length === 1) {
+    //   const viewportWidth = window.innerWidth
+    //   const viewportHeight = window.innerHeight
+    //   this.hoveredChar = text
+    //   this.mousePosition = {
+    //     x: Math.min(event.clientX + 20, viewportWidth - 220),
+    //     y: Math.min(event.clientY + 20, viewportHeight - 140)
+    //   }
+    //   console.log('显示提示:', text, '位置:', this.mousePosition)
+    // } else {
+    //   this.hoveredChar = null
+    // }
+  }
+
+  /**
+   * 清除悬停字符
+   */
+  clearHoveredChar () {
+    this.hoveredChar = null
   }
 }
 </script>

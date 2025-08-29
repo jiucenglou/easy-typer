@@ -133,6 +133,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { parseTrieNodeByCodinds, TrieNode } from './store/util/TrieTree'
+import { initXiaoheChaxing } from './xiaoheJianma/zi'
 import db from './store/util/Database'
 import { Action, Mutation, namespace } from 'vuex-class'
 import { LoginUser, LooseObject } from './store/types'
@@ -313,6 +314,9 @@ export default class Setting extends Vue {
   }
 
   created () {
+    // 初始化小鹤音形通规字码表
+    initXiaoheChaxing()
+
     this.$router.beforeEach((to: Route, from: Route, next) => {
       this.pathname = to.fullPath
       next()

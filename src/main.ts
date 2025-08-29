@@ -12,6 +12,7 @@ import './assets/styles/theme-day.scss'
 import './assets/styles/main.scss'
 import './assets/styles/main-dark.scss'
 import { initColorMode, initEnv } from './store/util/common'
+import { initXiaoheChaxing } from './xiaoheJianma/zi'
 
 Vue.use(ElementUI)
 
@@ -24,6 +25,9 @@ Vue.filter('numberWithCommas', function (num: number) {
 
 initEnv()
 initColorMode('', true)
+
+// 初始化小鹤音形通规字码表
+initXiaoheChaxing()
 
 new Vue({
   router,
