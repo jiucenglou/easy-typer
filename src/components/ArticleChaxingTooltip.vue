@@ -94,8 +94,11 @@ export default {
 
 <style scoped>
 .article-chaxing-tooltip {
-  position: relative;
-  display: inline-block;
+  position: absolute;
+  pointer-events: none; /* 确保不会捕获鼠标事件 */
+  width: 0;
+  height: 0;
+  overflow: visible; /* 允许内容溢出 */
 }
 
 .chaxing-tooltip {

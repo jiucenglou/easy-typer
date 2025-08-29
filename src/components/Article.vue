@@ -28,12 +28,15 @@
     </el-divider>
 
     <!-- 小鹤音形码表提示 -->
-    <ArticleChaxingTooltip
-      v-if="hoveredChar"
-      :character="hoveredChar"
-      :position="mousePosition"
-      :enabled="true"
-    />
+    <!-- 使用teleport将tooltip移到body下，避免影响布局 -->
+    <teleport to="body">
+      <ArticleChaxingTooltip
+        v-if="hoveredChar"
+        :character="hoveredChar"
+        :position="mousePosition"
+        :enabled="true"
+      />
+    </teleport>
   </div>
 </template>
 
