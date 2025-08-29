@@ -36,7 +36,7 @@ export class ChaXing {
     return ChaXing.instance
   }
 
-  public async loadChaxingData (path = '/static/chaxing_data.json'): Promise<boolean> {
+  public async loadChaxingData (path = 'static/chaxing_data.json'): Promise<boolean> {
     if (this.loading) return this.loadPromise as Promise<boolean>
 
     this.loading = true
@@ -128,7 +128,7 @@ export class ChaXing {
 /**
  * 初始化小鹤音形码表
  */
-export function initXiaoheChaxing (path = '/static/chaxing_data.json'): Promise<boolean> {
+export function initXiaoheChaxing (path = 'static/chaxing_data.json'): Promise<boolean> {
   return ChaXing.getInstance().loadChaxingData(path)
 }
 
