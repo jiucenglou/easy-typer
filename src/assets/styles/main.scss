@@ -435,7 +435,17 @@ html, body {
 }
 
 #racing-textarea {
-  overflow: auto;
+  // 出现滚动条后，可用空间减少。
+  // 这时，在跟打行尾最后一个字时，如果编码较多、其宽度越过输入区，就会跳到下一行显示。
+  // electron 打包后的程序不存在这个问题，观察发现 electron 程序直接不显示滚动条……
+  // 因此，隐藏滚动条但保留滚动功能。
+  // 到此，在 firefox 中的可用空间足够多，体验和在 electron 程序中就一致了。
+  // 但是，在 edge 中，隐藏滚动条省出的空间被收回去了，好像只能手动增加宽度～
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE/Edge */
+  &::-webkit-scrollbar {
+    display: none !important; /* Chrome/Safari */
+  }
   padding: 5px 15px;
   font-family: var(--racing-font);
   border: none;
@@ -455,6 +465,12 @@ html, body {
 
   &::placeholder {
     color: var(--placeholder-color);
+  }
+
+  // 在 edge 中，隐藏滚动条省出的空间被收回去了，好像只能手动增加宽度～
+  // 但是 0.6em 很可能并不是一个普适的数值～ 
+  &.edge-browser {
+    // width: calc(100% + 0.6em) !important; /* Edge专属样式 */
   }
 }
 
