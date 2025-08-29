@@ -212,6 +212,15 @@ export default class Racing extends Vue {
 
   mounted () {
     fixMobileScrollIssue()
+
+    // 检测Edge浏览器并添加特定class
+    const isEdge = navigator.userAgent.indexOf('Edg') !== -1
+    if (isEdge) {
+      const textarea = document.querySelector('#racing-textarea')
+      if (textarea) {
+        textarea.classList.add('edge-browser')
+      }
+    }
   }
 
   /**
