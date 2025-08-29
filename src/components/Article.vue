@@ -349,10 +349,12 @@ export default class Article extends Vue {
   /**
    * 处理字符悬停事件
    */
+  private hoverTimer: number | null = null
+
   async handleCharHover (event: MouseEvent) {
-    // 确保码表已加载
-    if (!ChaXing.getInstance().isLoaded) {
-      await ChaXing.getInstance().loadChaxingData()
+    // 清除之前的计时器
+    if (this.hoverTimer !== null) {
+      window.clearTimeout(this.hoverTimer)
     }
 
     const target = event.target as HTMLElement
@@ -362,33 +364,49 @@ export default class Article extends Vue {
     const charElement = target.closest('span') || target
     const text = charElement.textContent?.trim() || ''
 
-    this.hoveredChar = text
-
+    // 记录鼠标位置
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
-    this.mousePosition = {
+    const position = {
       x: Math.min(event.clientX + 20, viewportWidth - 220),
       y: Math.min(event.clientY + 20, viewportHeight - 140)
     }
-    // // 只处理单字符
-    // if (text.length === 1) {
-    //   const viewportWidth = window.innerWidth
-    //   const viewportHeight = window.innerHeight
-    //   this.hoveredChar = text
-    //   this.mousePosition = {
-    //     x: Math.min(event.clientX + 20, viewportWidth - 220),
-    //     y: Math.min(event.clientY + 20, viewportHeight - 140)
-    //   }
-    //   console.log('显示提示:', text, '位置:', this.mousePosition)
-    // } else {
-    //   this.hoveredChar = null
-    // }
+
+    // 设置 0.5 秒延迟
+    this.hoverTimer = window.setTimeout(async () => {
+      // 确保码表已加载
+      if (!ChaXing.getInstance().isLoaded) {
+        await ChaXing.getInstance().loadChaxingData()
+      }
+
+      // 0.5 秒后设置悬停字符和位置
+      this.hoveredChar = text
+      this.mousePosition = position
+      // // 只处理单字符
+      // if (text.length === 1) {
+      //   const viewportWidth = window.innerWidth
+      //   const viewportHeight = window.innerHeight
+      //   this.hoveredChar = text
+      //   this.mousePosition = {
+      //     x: Math.min(event.clientX + 20, viewportWidth - 220),
+      //     y: Math.min(event.clientY + 20, viewportHeight - 140)
+      //   }
+      //   console.log('显示提示:', text, '位置:', this.mousePosition)
+      // } else {
+      //   this.hoveredChar = null
+      // }
+    }, 500)
   }
 
   /**
    * 清除悬停字符
    */
   clearHoveredChar () {
+    // 清除计时器
+    if (this.hoverTimer !== null) {
+      window.clearTimeout(this.hoverTimer)
+      this.hoverTimer = null
+    }
     this.hoveredChar = null
   }
 }

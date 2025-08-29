@@ -36,10 +36,11 @@ export default {
   computed: {
     chaxingLines () {
       return [
-        `编码: ${ChaXing.getCode(this.character)}`,
-        `鹤形: ${ChaXing.getShape(this.character)}`,
-        `拆分: ${ChaXing.getComponents(this.character)}`,
-        `拼音: ${ChaXing.getPinyin(this.character)}`
+        `${this.character}：`,
+        `\u3000\u3000编码: ${ChaXing.getCode(this.character)}`,
+        `\u3000\u3000鹤形: ${ChaXing.getShape(this.character)}`,
+        `\u3000\u3000拆分: ${ChaXing.getComponents(this.character)}`,
+        `\u3000\u3000拼音: ${ChaXing.getPinyin(this.character)}`
       ].filter(line => !line.includes('undefined'))
     },
     tooltipStyle () {
@@ -108,7 +109,7 @@ export default {
   color: white;
   padding: 8px 12px;
   border-radius: 4px;
-  font-size: max(14px, var(--font-size));
+  font-size: max(14px, var(--font-size)*3/4);
   pointer-events: none;
   min-width: 180px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16);
