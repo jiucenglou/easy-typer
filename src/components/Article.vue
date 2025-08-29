@@ -7,12 +7,18 @@
       <span>第{{ identity }}段</span>
       <span>{{ title || '未知' }}</span>
       <span>共{{ length }}字</span>
-      <el-button
+      <el-tooltip
         v-if="errorCharsSize > 0"
-        type="text"
-        @click="handleCreateErrorCharsPractice">
-        错误×{{ errorCharsSize }}次，点击练习
-      </el-button>
+        :content="errorCharsTooltip"
+        placement="top"
+        effect="light"
+        popper-class="error-chars-tooltip">
+        <el-button
+          type="text"
+          @click="handleCreateErrorCharsPractice">
+          &nbsp;  有错误（共{{ errorCharsSize }}字），点击练习
+        </el-button>
+      </el-tooltip>
     </el-divider>
   </div>
 </template>
@@ -78,7 +84,15 @@ export default class Article extends Vue {
 
   // 获取错字集合的大小
   get errorCharsSize (): number {
-    return this.errorChars ? this.errorChars.length : 0
+    return this.errorChars ? this.errorChars.join('').length : 0
+  }
+
+  // 格式化错字内容用于tooltip显示
+  get errorCharsTooltip (): string {
+    if (!this.errorChars || this.errorChars.length === 0) {
+      return '无错误'
+    }
+    return `错误列表: ${this.errorChars.join(' ')}`
   }
 
   @kata.Action('createErrorCharsPractice')
@@ -268,4 +282,14 @@ export default class Article extends Vue {
   #article-main {
     word-break: break-all;
   }
+</style>
+
+<style>
+/* 全局样式，用于错字提示 */
+.error-chars-tooltip {
+  font-family: var(--racing-font) !important;
+  font-size: max(1.2rem, var(--font-size)) !important;
+  max-width: 400px;
+  line-height: 1.5;
+}
 </style>
